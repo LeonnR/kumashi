@@ -12,3 +12,22 @@ body {
 html {
   overflow-x: hidden;
 }
+
+.kaito-outline {
+  max-height: 55vh;
+  width: auto;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-53%) translateY(1%);
+  filter: brightness(0.5) drop-shadow(0 0 5px white);
+  opacity: 0.6;
+  pointer-events: auto;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.kaito-outline:hover {
+  filter: brightness(1) drop-shadow(0 0 8px white);
+  opacity: 0.8;
+}

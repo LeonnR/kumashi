@@ -4,12 +4,14 @@ import './App.css'
 import backgroundVideo from './assets/background-video.mp4'  // Make sure this path is correct
 import kumashiLogo from './assets/kumashi-logo.webp'  // Adjust path as needed        // Adjust path as needed
 import kaitoImage3 from './assets/theKaito.png'
+import kaitoNoGround from './assets/kaito-noground.webp'  // Make sure the path is correct
 import Games from './pages/Games'
 
 function MainContent() {
   const [count, setCount] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
   const [isLogoVisible, setIsLogoVisible] = useState(false)  // New state for logo visibility
+  const [showOutline, setShowOutline] = useState(false)  // new state for outline element
   const navigate = useNavigate()
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
@@ -45,6 +47,17 @@ function MainContent() {
     }
   }, [])
 
+  // New separate useEffect for outline element
+  useEffect(() => {
+    const outlineTimer = setTimeout(() => {
+      setShowOutline(true);
+    }, 5000);
+
+    return () => {
+      clearTimeout(outlineTimer);
+    };
+  }, []);
+
   console.log('Video path:', backgroundVideo)
 
   return (
@@ -73,28 +86,46 @@ function MainContent() {
         <source src={backgroundVideo} type="video/mp4" />
       </video>
 
+      {/* Only render when showOutline is true */}
+      {showOutline && (
+        <div 
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: '5',
+            opacity: showOutline ? 1 : 0,
+            transition: 'opacity 0.3s ease-in',
+          }}>
+          <img 
+            onClick={() => navigate('/games')}
+            src={kaitoNoGround} 
+            alt="Kaito Front Layer"
+            className="kaito-outline"
+          />
+        </div>
+      )}
+
       {/* Background Kaito */}
       <div 
       style={{
         position: 'absolute',
         width: '100%',
         height: '100%',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
         zIndex: '1',
       }}>
         <div
-          onClick={() => navigate('/games')}
           style={{
             position: 'absolute',
             bottom: '0',
             left: '50%',
             transform: 'translateX(-50%)',
-            width: '20vh',  // Adjust these values to match
-            height: '45vh', // the bear's dimensions
+            width: '20vh',
+            height: '45vh',
             cursor: 'pointer',
-            // backgroundColor: 'rgba(255,0,0,0.3)', // Uncomment to debug clickable area
             zIndex: 10,
           }}
         />
@@ -104,9 +135,11 @@ function MainContent() {
           style={{
             maxHeight: '55vh',
             width: 'auto',
-            bottom: '0',
             position: 'absolute',
-            pointerEvents: 'none',  // Prevent image from capturing clicks
+            bottom: '0',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            pointerEvents: 'none',
           }}
         />
       </div>
@@ -159,25 +192,6 @@ function MainContent() {
           />
         </div>
       )}
-
-      {/* Make this div clickable */}
-      {/* <div 
-        onClick={() => navigate('/games')}
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: '4',  // Changed from 1 to 4 to be above other elements
-          cursor: 'pointer',
-          // Optional: add some styling to make the text more visible
-          // backgroundColor: 'rgba(0, 0, 0, 0.3)',  // semi-transparent background
-        }}
-      >
-
-      </div> */}
     </div>
   )
 }
