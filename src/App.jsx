@@ -5,6 +5,7 @@ import backgroundVideo from './assets/background-video.mp4'  // Make sure this p
 import kumashiLogo from './assets/kumashi-logo.webp'  // Adjust path as needed        // Adjust path as needed
 import kaitoImage3 from './assets/theKaito.png'
 import kaitoNoGround from './assets/kaito-noground.webp'  // Make sure the path is correct
+import templeImage from './assets/temple.webp'
 import Games from './pages/Games'
 
 function MainContent() {
@@ -14,6 +15,7 @@ function MainContent() {
   const [showOutline, setShowOutline] = useState(false)  // new state for outline element
   const navigate = useNavigate()
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [showTemple, setShowTemple] = useState(false);  // new state for temple
 
   useEffect(() => {
     // Show elements after 2 seconds
@@ -35,7 +37,9 @@ function MainContent() {
     const handleMouseMove = (e) => {
       // Calculate mouse position as percentage of window width
       const x = (e.clientX / window.innerWidth - 0.5) * 1.5; // Will give us -1 to 1
-      setMousePosition({ x });
+      // Clamp the value between -1 and 0.2 (limiting right movement)
+      const clampedX = Math.max(-1, Math.min(0.6, x));
+      setMousePosition({ x: clampedX });
     };
 
     window.addEventListener('mousemove', handleMouseMove);
@@ -58,6 +62,17 @@ function MainContent() {
     };
   }, []);
 
+  // Add new useEffect for temple
+  useEffect(() => {
+    const templeTimer = setTimeout(() => {
+      setShowTemple(true);
+    }, 5000);  // Show at the same time as the outline
+
+    return () => {
+      clearTimeout(templeTimer);
+    };
+  }, []);
+
   console.log('Video path:', backgroundVideo)
 
   return (
@@ -74,13 +89,12 @@ function MainContent() {
         muted
         style={{
           position: 'absolute',
-          width: '120%', // Make video wider than container
+          width: '120%',
           height: '100%',
           objectFit: 'cover',
           zIndex: '0',
-          left: `${mousePosition.x * -10}%`, // Move video based on mouse position
-          transition: 'left 0.3s ease-out', // Smooth movement
-          transform: 'translateX(-10%)', // Center the video
+          transform: `translateX(calc(-10% + ${mousePosition.x * -10}%))`,
+          transition: 'transform 0.2s ease',
         }}
       >
         <source src={backgroundVideo} type="video/mp4" />
@@ -101,10 +115,42 @@ function MainContent() {
             transition: 'opacity 0.3s ease-in',
           }}>
           <img 
-            onClick={() => navigate('/games')}
+            onClick={() => window.open('/games', '_blank', 'noopener,noreferrer')}
             src={kaitoNoGround} 
             alt="Kaito Front Layer"
             className="kaito-outline"
+          />
+        </div>
+      )}
+
+      {/* Temple Layer */}
+      {showTemple && (
+        <div 
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            zIndex: '1',
+            opacity: showTemple ? 1 : 0,
+            transition: 'opacity 0.3s ease-in',
+          }}>
+          <img 
+            onClick={() => navigate('/games')}
+            src={templeImage} 
+            alt="Temple"
+            className="temple-image"
+            style={{
+              width: 'auto',
+              height: '105vh',
+              marginTop: '-2vh',
+              marginLeft: '-4vw',
+              cursor: 'pointer',
+              transform: `translateX(${mousePosition.x * -10}%)`,
+              transition: 'transform 0.2s ease',
+            }}
           />
         </div>
       )}
