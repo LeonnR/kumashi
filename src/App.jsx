@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import './App.css'
 import backgroundVideo from './assets/background-video.mp4'  // Make sure this path is correct
 import kumashiLogo from './assets/kumashi-logo.webp'  // Adjust path as needed        // Adjust path as needed
@@ -10,6 +11,7 @@ import Games from './pages/Games'
 import xLogo from './assets/x-logo.webp'
 import discordLogo from './assets/discord-logo.webp'
 import miniKumashi from './assets/mini-kumashi.png'
+import Checker from './pages/Checker'
 
 function MainContent() {
   const [count, setCount] = useState(0)
@@ -23,6 +25,7 @@ function MainContent() {
   const [isHovered, setIsHovered] = useState(false);
   const [isTempleHovered, setIsTempleHovered] = useState(false);
   const [showSocials, setShowSocials] = useState(false);
+  const [showChecker, setShowChecker] = useState(false);
 
   useEffect(() => {
     const timers = {
@@ -44,6 +47,10 @@ function MainContent() {
 
       showSocials: setTimeout(() => {
         setShowSocials(true);
+      }, 2000),
+
+      showChecker: setTimeout(() => {
+        setShowChecker(true);
       }, 2000)
     };
 
@@ -158,7 +165,7 @@ function MainContent() {
         onMouseLeave={() => {
           const kaitoOutline = document.querySelector('.kaito-outline');
           if (kaitoOutline) {
-            kaitoOutline.style.filter = 'none';
+            kaitoOutline.style.filter = 'brightness(0.5) drop-shadow(0 0 8px white)';
           }
         }}
       >
@@ -229,7 +236,7 @@ function MainContent() {
           onMouseLeave={() => {
             const kaitoOutline = document.querySelector('.kaito-outline');
             if (kaitoOutline) {
-              kaitoOutline.style.filter = 'none';
+              kaitoOutline.style.filter = 'brightness(0.5) drop-shadow(0 0 8px white)';
             }
           }}
           src={kaitoNoGround} 
@@ -358,6 +365,50 @@ function MainContent() {
           />
         </div>
       )}
+
+      <div 
+      onClick={() => navigate('/checker')}
+      style={{
+        position: 'absolute',
+        bottom: '200px',
+        right: '200px',
+        zIndex: 10,
+        opacity: showChecker ? 1 : 0,
+        transition: 'opacity 1s ease-in',
+        pointerEvents: showChecker ? 'auto' : 'none'
+      }}
+      >
+        <button
+          style={{
+            background: 'white',
+            padding: '15px 30px',
+            borderRadius: '25px',
+            border: 'none',
+            fontSize: '70px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            transition: 'all 0.3s ease',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+            color: 'black'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.transform = 'scale(1.05)';
+            e.target.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = 'scale(1)';
+            e.target.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+          }}
+          onClick={() => {
+            console.log('Checker clicked');
+          }}
+        >
+          Checker →
+        </button>
+      </div>
     </div>
   )
 }
@@ -365,11 +416,28 @@ function MainContent() {
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<MainContent />} />
-        <Route path="/games" element={<Games />} />
-      </Routes>
+      <AppContent />
     </Router>
+  )
+}
+
+function AppContent() {
+  const location = useLocation();
+  
+  return (
+    <TransitionGroup>
+      <CSSTransition
+        key={location.pathname}
+        timeout={300}
+        classNames="page"
+      >
+        <Routes location={location}>
+          <Route path="/" element={<MainContent />} />
+          <Route path="/games" element={<Games />} />
+          <Route path="/checker" element={<Checker />} />
+        </Routes>
+      </CSSTransition>
+    </TransitionGroup>
   )
 }
 
