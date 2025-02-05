@@ -30,20 +30,5 @@ html {
 .kaito-outline:hover {
   filter: brightness(1) drop-shadow(0 0 8px white);
   opacity: 0.8;
-}
 
-@keyframes templeGlow {
-  0% { filter: drop-shadow(0 0 10px rgba(0, 162, 255, 0.5)); }
-  50% { filter: drop-shadow(0 0 20px rgba(0, 162, 255, 0.8)); }
-  100% { filter: drop-shadow(0 0 10px rgba(0, 162, 255, 0.5)); }
-}
-
-.temple-image {
-  filter: brightness(0.5) drop-shadow(0 0 10px rgba(0, 162, 255, 0.5));
-  transition: filter 0.3s ease;
-  cursor: pointer;
-}
-
-.temple-image:hover {
-  filter: brightness(0.8) drop-shadow(0 0 10px rgba(0, 162, 255, 0.5)) !important;
 }
