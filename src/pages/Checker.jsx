@@ -49,7 +49,7 @@ function Checker() {
             fontSize: '18px',
             borderRadius: '30px',
             border: 'none',
-            marginBottom: '20px',
+            marginBottom: '100px',
             backgroundColor: 'rgba(255, 255, 255, 0.9)',
           }}
         />
@@ -81,7 +81,7 @@ function Checker() {
         onClick={() => navigate('/')}
         style={{
           position: 'absolute',
-          bottom: '200px',
+          bottom: '130px',
           left: '200px',
           zIndex: 10
         }}
@@ -92,7 +92,7 @@ function Checker() {
             padding: '15px 30px',
             borderRadius: '25px',
             border: 'none',
-            fontSize: '70px',
+            fontSize: '30px',
             fontWeight: 'bold',
             cursor: 'pointer',
             display: 'flex',
