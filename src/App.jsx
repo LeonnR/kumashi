@@ -128,8 +128,8 @@ function MainContent() {
     }}>
       <div style={{
         position: 'absolute',
-        top: '27px',
-        right: '20px',
+        top: 'clamp(20px, 4vh, 40px)',  // Responsive top spacing
+        right: 'clamp(10px, 2vw, 20px)', // Responsive right spacing
         zIndex: 11,
         opacity: showSocials ? 1 : 0,
         transition: 'opacity 1s ease-in',
@@ -173,11 +173,11 @@ function MainContent() {
 
       <div style={{
         position: 'absolute',
-        top: '20px',
-        left: '10%',
+        top: 'clamp(20px, 4vh, 40px)',
+        left: 'clamp(5%, 10%, 15%)',
         transform: 'translateX(-50%)',
         display: 'flex',
-        gap: '80px',
+        gap: 'clamp(20px, 4vw, 80px)',
         alignItems: 'center',
         zIndex: 10,
         opacity: showSocials ? 1 : 0,
@@ -186,10 +186,10 @@ function MainContent() {
       }}>
         <img 
           src={miniKumashi} 
-          alt="X (Twitter)"
+          alt="Mini Kumashi"
           style={{
-            width: '80px',
-            height: '80px',
+            width: 'clamp(40px, 6vw, 80px)',
+            height: 'clamp(40px, 6vw, 80px)',
             cursor: 'pointer',
             transition: 'all 0.3s ease',
             filter: 'brightness(0.8)'
@@ -206,10 +206,10 @@ function MainContent() {
         />
         <img 
           src={xLogo} 
-          alt="Mini Kumashi"
+          alt="X (Twitter)"
           style={{
-            width: '40px',
-            height: '40px',
+            width: 'clamp(20px, 3vw, 40px)',
+            height: 'clamp(20px, 3vw, 40px)',
             transition: 'transform 0.3s ease',
             cursor: 'pointer'
           }}
@@ -221,8 +221,8 @@ function MainContent() {
           src={discordLogo} 
           alt="Discord"
           style={{
-            width: '50px',
-            height: '40px',
+            width: 'clamp(25px, 3.5vw, 50px)',
+            height: 'clamp(20px, 3vw, 40px)',
             cursor: 'pointer',
             transition: 'all 0.3s ease',
             filter: 'brightness(0.8)'
@@ -243,7 +243,7 @@ function MainContent() {
         style={{
           position: 'absolute',
           left: '35%',
-          bottom: '40%',
+          bottom: 'clamp(30%, 40%, 50%)',
           zIndex: 6,
           display: 'flex',
           alignItems: 'center',
@@ -300,13 +300,13 @@ function MainContent() {
         playsInline
         style={{
           position: 'absolute',
-          width: '110%',
+          width: 'min(110vw, 110%)',
           height: '100%',
           objectFit: 'cover',
           zIndex: '0',
           transform: `translateX(calc(-4% + ${mousePosition.x * -2}%))`,
           transition: 'transform 0.2s ease',
-          willChange: 'transform',  // Optimize transform performance
+          willChange: 'transform',
         }}
         onError={(e) => {
           console.error('Video error:', e);
@@ -476,8 +476,8 @@ function MainContent() {
       <div 
           style={{
             position: 'absolute',
-          bottom: '1000px',
-          right: '200px',
+          bottom: 'clamp(300px, 40vh, 500px)',
+          right: 'clamp(100px, 15vw, 200px)',
           zIndex: 10,
           opacity: showChecker ? 1 : 0,
           transition: 'opacity 1s ease-in',
@@ -487,17 +487,17 @@ function MainContent() {
         <button
           style={{
             position: 'relative',
-            padding: '15px 30px',
+            padding: 'clamp(10px, 2vh, 15px) clamp(20px, 3vw, 30px)',
             border: 'none',
-            fontSize: '40px',
+            fontSize: 'clamp(20px, 3vw, 30px)',
             fontWeight: 'bold',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
             transition: 'all 0.3s ease',
-            color: 'rgba(255, 255, 255, 0.6)',  // Semi-transparent white text
-            background: 'none',  // Remove background
+            color: 'rgba(255, 255, 255, 0.6)',
+            background: 'none',
           }}
           onMouseEnter={(e) => {
             e.target.style.transform = 'scale(1.05)';
@@ -512,7 +512,7 @@ function MainContent() {
             navigate('/checker');
           }}
         >
-          CHECKER ➤
+          CHECKER →
         </button>
       </div>
     </div>
