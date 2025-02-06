@@ -128,7 +128,7 @@ function MainContent() {
     }}>
       <div style={{
         position: 'absolute',
-        top: 'clamp(15px, 3vh, 30px)',  // Reduced these values even further
+        top: 'clamp(12.5px, 2.5vh, 25px)',  // Reduced these values even further
         right: 'clamp(10px, 2vw, 20px)',
         zIndex: 11,
         opacity: showSocials ? 1 : 0,
@@ -355,9 +355,11 @@ function MainContent() {
       <div 
         style={{
           position: 'absolute',
+          top: '0.2%',
+          right: '35%',
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'flex-start',
+          alignItems: 'center',
           zIndex: '8',
           opacity: showTemple ? 1 : 0,
           transition: 'opacity 1s ease-in',
@@ -376,12 +378,10 @@ function MainContent() {
           src={templeImage} 
           alt="Temple"
           style={{
-            width: 'auto',
-            height: '35vh',
-            marginTop: '0.1vh',
-            marginLeft: '44.2vw',
             cursor: 'pointer',
-            transform: `translateX(calc(-10% + ${mousePosition.x * -10}%))`,
+            height: '35vh',  // Reduced from 70vh to 50vh
+            width: 'auto',
+            transform: `translateX(calc(-3% + ${mousePosition.x * -10}%))`,
             transition: 'all 0.2s ease',
             filter: isTempleHovered 
               ? 'brightness(1) drop-shadow(0 0 8px white)'
@@ -473,7 +473,6 @@ function MainContent() {
         </div>
       )}
 
-      {/* Checker Button */}
       <div style={{
         position: 'absolute',
         top: 'clamp(15px, 3vh, 30px)',  // Reduced these values even further
@@ -511,7 +510,7 @@ function MainContent() {
             navigate('/checker');
           }}
         >
-          CHECKER →
+          CHECKER ➤
         </button>
       </div>
     </div>
