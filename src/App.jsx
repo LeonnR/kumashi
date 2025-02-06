@@ -128,8 +128,8 @@ function MainContent() {
     }}>
       <div style={{
         position: 'absolute',
-        top: 'clamp(20px, 4vh, 40px)',  // Responsive top spacing
-        right: 'clamp(10px, 2vw, 20px)', // Responsive right spacing
+        top: 'clamp(15px, 3vh, 30px)',  // Reduced these values even further
+        right: 'clamp(10px, 2vw, 20px)',
         zIndex: 11,
         opacity: showSocials ? 1 : 0,
         transition: 'opacity 1s ease-in',
@@ -215,7 +215,7 @@ function MainContent() {
           }}
           onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
           onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
-          
+          onClick={() => window.open('https://x.com/KumashiBera?t=eYJ4zY8AAoMnxMRfSJ1buw&s=09', '_blank')}
         />
         <img 
           src={discordLogo} 
@@ -473,17 +473,16 @@ function MainContent() {
         </div>
       )}
 
-      <div 
-          style={{
-            position: 'absolute',
-          bottom: 'clamp(300px, 40vh, 500px)',
-          right: 'clamp(100px, 15vw, 200px)',
-          zIndex: 10,
-          opacity: showChecker ? 1 : 0,
-          transition: 'opacity 1s ease-in',
-          pointerEvents: showChecker ? 'auto' : 'none'
-        }}
-      >
+      {/* Checker Button */}
+      <div style={{
+        position: 'absolute',
+        top: 'clamp(15px, 3vh, 30px)',  // Reduced these values even further
+        right: 'clamp(100px, 15vw, 200px)',
+        zIndex: 10,
+        opacity: showChecker ? 1 : 0,
+        transition: 'opacity 1s ease-in',
+        pointerEvents: showChecker ? 'auto' : 'none'
+      }}>
         <button
           style={{
             position: 'relative',
@@ -501,11 +500,11 @@ function MainContent() {
           }}
           onMouseEnter={(e) => {
             e.target.style.transform = 'scale(1.05)';
-            e.target.style.color = 'rgba(255, 255, 255, 1)';  // Fully opaque on hover
+            e.target.style.color = 'rgba(255, 255, 255, 1)';
           }}
           onMouseLeave={(e) => {
             e.target.style.transform = 'scale(1)';
-            e.target.style.color = 'rgba(255, 255, 255, 0.6)';  // Back to semi-transparent
+            e.target.style.color = 'rgba(255, 255, 255, 0.6)';
           }}
           onClick={() => {
             console.log('Checker clicked');
