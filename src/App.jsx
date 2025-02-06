@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import './App.css'
-import backgroundVideo from './assets/background-video.mp4'  // Make sure this path is correct
+import backgroundVideo from './assets/infinite-loop.webm'  // Make sure this path is correct
+// import backgroundVideo from './assets/background-video.mp4'  
 import kumashiLogo from './assets/kumashi-logo.webp'  // Adjust path as needed        // Adjust path as needed
 import kaitoImage3 from './assets/theKaito.png'
 import kaitoNoGround from './assets/kaito-noground.webp'  // Make sure the path is correct
@@ -12,6 +13,14 @@ import xLogo from './assets/x-logo.webp'
 import discordLogo from './assets/discord-logo.webp'
 import miniKumashi from './assets/mini-kumashi.png'
 import Checker from './pages/Checker'
+import kumashiAudio from './assets/kumashi-audio.mp3'
+import GamePlaceholder from './pages/GamePlaceholder'
+// Initialize audio outside component
+const globalAudio = new Audio(kumashiAudio);
+globalAudio.loop = true;
+
+// Try to play immediately
+globalAudio.play().catch(error => console.log('Initial autoplay prevented:', error));
 
 function MainContent() {
   const [count, setCount] = useState(0)
@@ -26,6 +35,12 @@ function MainContent() {
   const [isTempleHovered, setIsTempleHovered] = useState(false);
   const [showSocials, setShowSocials] = useState(false);
   const [showChecker, setShowChecker] = useState(false);
+  const [isSoundOn, setIsSoundOn] = useState(true);
+
+  // Add these SVG data URLs inside your component
+  const soundOnIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z'/%3E%3C/svg%3E";
+  
+  const soundOffIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3,9H7L12,4V20L7,15H3V9M16.59,12L14,9.41L15.41,8L18,10.59L20.59,8L22,9.41L19.41,12L22,14.59L20.59,16L18,13.41L15.41,16L14,14.59L16.59,12Z'/%3E%3C/svg%3E";
 
   useEffect(() => {
     const timers = {
@@ -68,6 +83,42 @@ function MainContent() {
     };
   }, []);
 
+  useEffect(() => {
+    // Try to play on component mount if it's not already playing
+    if (isSoundOn && globalAudio.paused) {
+      globalAudio.play().catch(error => {
+        console.log('Autoplay prevented:', error);
+      });
+    }
+
+    // Add click event listener for browsers that block autoplay
+    const handleUserInteraction = async () => {
+      if (isSoundOn && globalAudio.paused) {
+        try {
+          await globalAudio.play();
+        } catch (error) {
+          console.log('Play failed:', error);
+        }
+      }
+    };
+
+    document.addEventListener('click', handleUserInteraction);
+
+    // Cleanup function
+    return () => {
+      document.removeEventListener('click', handleUserInteraction);
+    };
+  }, [isSoundOn]); // Add isSoundOn as dependency
+
+  const toggleSound = () => {
+    if (isSoundOn) {
+      globalAudio.pause();
+    } else {
+      globalAudio.play().catch(console.error);
+    }
+    setIsSoundOn(!isSoundOn);
+  };
+
   return (
     <div style={{ 
       position: 'relative',
@@ -77,11 +128,56 @@ function MainContent() {
     }}>
       <div style={{
         position: 'absolute',
+        top: '27px',
+        right: '20px',
+        zIndex: 11,
+        opacity: showSocials ? 1 : 0,
+        transition: 'opacity 1s ease-in',
+        pointerEvents: showSocials ? 'auto' : 'none'
+      }}>
+        <button
+          onClick={toggleSound}
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: '15px',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'all 0.3s ease'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.transform = 'scale(1.1)';
+            e.target.querySelector('img').style.opacity = '1';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = 'scale(1)';
+            e.target.querySelector('img').style.opacity = '0.6';
+          }}
+        >
+          <img
+            src={isSoundOn ? soundOnIcon : soundOffIcon}
+            alt={isSoundOn ? "Sound On" : "Sound Off"}
+            style={{
+              width: '45px',
+              height: '45px',
+              filter: 'brightness(0.8) invert(1)',
+              opacity: '0.6',  // Default opacity
+              transition: 'opacity 0.3s ease'  // Smooth opacity transition
+            }}
+          />
+        </button>
+      </div>
+
+      <div style={{
+        position: 'absolute',
         top: '20px',
-        left: '50%',
+        left: '10%',
         transform: 'translateX(-50%)',
         display: 'flex',
-        gap: '300px',
+        gap: '80px',
         alignItems: 'center',
         zIndex: 10,
         opacity: showSocials ? 1 : 0,
@@ -89,11 +185,11 @@ function MainContent() {
         pointerEvents: showSocials ? 'auto' : 'none'
       }}>
         <img 
-          src={xLogo} 
+          src={miniKumashi} 
           alt="X (Twitter)"
           style={{
-            width: '40px',
-            height: '40px',
+            width: '80px',
+            height: '80px',
             cursor: 'pointer',
             transition: 'all 0.3s ease',
             filter: 'brightness(0.8)'
@@ -106,26 +202,26 @@ function MainContent() {
             e.target.style.transform = 'scale(1)';
             e.target.style.filter = 'brightness(0.8)';
           }}
-          onClick={() => window.open('https://x.com/KumashiBera?t=eYJ4zY8AAoMnxMRfSJ1buw&s=09', '_blank')}
+          onClick={() => window.location.reload()}
         />
         <img 
-          src={miniKumashi} 
+          src={xLogo} 
           alt="Mini Kumashi"
           style={{
-            width: '80px',
-            height: '80px',
+            width: '40px',
+            height: '40px',
             transition: 'transform 0.3s ease',
             cursor: 'pointer'
           }}
           onMouseEnter={(e) => e.target.style.transform = 'scale(1.1)'}
           onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
-          onClick={() => window.location.reload()}
+          
         />
         <img 
           src={discordLogo} 
           alt="Discord"
           style={{
-            width: '40px',
+            width: '50px',
             height: '40px',
             cursor: 'pointer',
             transition: 'all 0.3s ease',
@@ -169,7 +265,9 @@ function MainContent() {
           }
         }}
       >
-        <div style={{
+        <div 
+        onClick={() => navigate('/games')}
+        style={{
           background: 'white',
           padding: '10px 20px',
           borderRadius: '25px',
@@ -199,6 +297,7 @@ function MainContent() {
         autoPlay
         loop
         muted
+        playsInline
         style={{
           position: 'absolute',
           width: '110%',
@@ -207,9 +306,17 @@ function MainContent() {
           zIndex: '0',
           transform: `translateX(calc(-4% + ${mousePosition.x * -2}%))`,
           transition: 'transform 0.2s ease',
+          willChange: 'transform',  // Optimize transform performance
+        }}
+        onError={(e) => {
+          console.error('Video error:', e);
+          // Attempt to recover by reloading the video
+          e.target.load();
         }}
       >
-        <source src={backgroundVideo} type="video/mp4" />
+        <source src={backgroundVideo} type="video/webm" />
+        <source src={backgroundVideo.replace('.webm', '.mp4')} type="video/mp4" />
+        Your browser does not support the video tag.
       </video>
 
       <div 
@@ -226,7 +333,7 @@ function MainContent() {
           pointerEvents: showOutline ? 'auto' : 'none'
         }}>
         <img 
-          onClick={() => window.open('/games', '_blank', 'noopener,noreferrer')}
+          onClick={() => navigate('/games')}
           onMouseEnter={() => {
             const kaitoOutline = document.querySelector('.kaito-outline');
             if (kaitoOutline) {
@@ -257,7 +364,7 @@ function MainContent() {
           pointerEvents: showTemple ? 'auto' : 'none'
         }}>
         <img 
-          onClick={() => navigate('/games')}
+          onClick={() => navigate('/game-placeholder')}
           onMouseEnter={() => {
             console.log('Mouse entered temple');
             setIsTempleHovered(true);
@@ -271,7 +378,7 @@ function MainContent() {
           style={{
             width: 'auto',
             height: '35vh',
-            marginTop: '3.5vh',
+            marginTop: '0.1vh',
             marginLeft: '44.2vw',
             cursor: 'pointer',
             transform: `translateX(calc(-10% + ${mousePosition.x * -10}%))`,
@@ -367,46 +474,45 @@ function MainContent() {
       )}
 
       <div 
-      onClick={() => navigate('/checker')}
-      style={{
-        position: 'absolute',
-        bottom: '200px',
-        right: '200px',
-        zIndex: 10,
-        opacity: showChecker ? 1 : 0,
-        transition: 'opacity 1s ease-in',
-        pointerEvents: showChecker ? 'auto' : 'none'
-      }}
+          style={{
+            position: 'absolute',
+          bottom: '1000px',
+          right: '200px',
+          zIndex: 10,
+          opacity: showChecker ? 1 : 0,
+          transition: 'opacity 1s ease-in',
+          pointerEvents: showChecker ? 'auto' : 'none'
+        }}
       >
         <button
           style={{
-            background: 'white',
+            position: 'relative',
             padding: '15px 30px',
-            borderRadius: '25px',
             border: 'none',
-            fontSize: '70px',
+            fontSize: '40px',
             fontWeight: 'bold',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
             transition: 'all 0.3s ease',
-            boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
-            color: 'black'
+            color: 'rgba(255, 255, 255, 0.6)',  // Semi-transparent white text
+            background: 'none',  // Remove background
           }}
           onMouseEnter={(e) => {
             e.target.style.transform = 'scale(1.05)';
-            e.target.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)';
+            e.target.style.color = 'rgba(255, 255, 255, 1)';  // Fully opaque on hover
           }}
           onMouseLeave={(e) => {
             e.target.style.transform = 'scale(1)';
-            e.target.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+            e.target.style.color = 'rgba(255, 255, 255, 0.6)';  // Back to semi-transparent
           }}
           onClick={() => {
             console.log('Checker clicked');
+            navigate('/checker');
           }}
         >
-          Checker →
+          CHECKER ➤
         </button>
       </div>
     </div>
@@ -435,6 +541,7 @@ function AppContent() {
           <Route path="/" element={<MainContent />} />
           <Route path="/games" element={<Games />} />
           <Route path="/checker" element={<Checker />} />
+          <Route path="/game-placeholder" element={<GamePlaceholder />} />
         </Routes>
       </CSSTransition>
     </TransitionGroup>

@@ -1,6 +1,8 @@
+import { useNavigate } from 'react-router-dom'
 import kaitoVideo from '../assets/kaito-vid.mp4'  // Adjust the path based on your folder structure
 
 function Games() {
+  const navigate = useNavigate();
   const handleVideoLoad = (e) => {
     const video = e.target;
     video.play().catch(err => console.log('Playback failed:', err));
@@ -28,7 +30,46 @@ function Games() {
           <source src={kaitoVideo} type="video/mp4" />
         </video>
       </a>
+
+      <div 
+        onClick={() => navigate('/')}
+        style={{
+          position: 'absolute',
+          bottom: '130px',
+          left: '200px',
+          zIndex: 10
+        }}
+      >
+        <button
+          style={{
+            background: 'white',
+            padding: '15px 30px',
+            borderRadius: '25px',
+            border: 'none',
+            fontSize: '30px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            transition: 'all 0.3s ease',
+            boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+            color: 'black'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.transform = 'scale(1.05)';
+            e.target.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = 'scale(1)';
+            e.target.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+          }}
+        >
+          ← Back
+        </button>
+      </div>
     </div>
+    
   )
 }
 

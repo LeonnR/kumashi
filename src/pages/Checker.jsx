@@ -51,11 +51,12 @@ function Checker() {
             border: 'none',
             marginBottom: '100px',
             backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            color: 'black'
           }}
         />
         <div>
           <button style={{
-            backgroundColor: 'white',
+            backgroundColor: 'rgba(255, 255, 255, 0.6)',
             color: 'black',
             padding: '15px 40px',
             fontSize: '20px',
@@ -67,9 +68,11 @@ function Checker() {
           }}
           onMouseEnter={(e) => {
             e.target.style.transform = 'scale(1.05)';
+            e.target.style.backgroundColor = 'rgba(255, 255, 255, 1)';
           }}
           onMouseLeave={(e) => {
             e.target.style.transform = 'scale(1)';
+            e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.6)';
           }}
           >
             CHECK YOUR WALLET
@@ -81,14 +84,14 @@ function Checker() {
         onClick={() => navigate('/')}
         style={{
           position: 'absolute',
-          bottom: '130px',
-          left: '200px',
+          bottom: '80px',
+          left: '40px',
           zIndex: 10
         }}
       >
         <button
           style={{
-            background: 'white',
+            backgroundColor: 'rgba(255, 255, 255, 0.6)',
             padding: '15px 30px',
             borderRadius: '25px',
             border: 'none',
@@ -105,10 +108,12 @@ function Checker() {
           onMouseEnter={(e) => {
             e.target.style.transform = 'scale(1.05)';
             e.target.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)';
+            e.target.style.backgroundColor = 'rgba(255, 255, 255, 1)';
           }}
           onMouseLeave={(e) => {
             e.target.style.transform = 'scale(1)';
             e.target.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+            e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.6)';
           }}
         >
           ← Back
