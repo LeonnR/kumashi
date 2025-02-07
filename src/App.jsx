@@ -309,21 +309,23 @@ function MainContent() {
           zIndex: 6,
           display: 'flex',
           alignItems: 'center',
-          opacity: showWatchMV ? 1 : 0,
+          opacity: showWatchMV ? 1 : 0,  // Controls fade in
           pointerEvents: showWatchMV ? 'auto' : 'none',
           transform: `translateX(calc(-3% + ${mousePosition.x * -35}%))`,
-          transition: 'all 0.2s ease',
+          transition: 'all 0.2s ease, opacity 1s ease-in',  // Added opacity transition
         }}
         onMouseEnter={() => setIsTempleHovered(true)}
         onMouseLeave={() => setIsTempleHovered(false)}
       >
         <div style={{
-          width: '120px',  // Increased from 80px to 120px
+          width: '120px',
           height: '2px',
-          background: 'black',  // Changed from white to black
+          background: 'black',
           position: 'absolute',
           right: '100%',
-          transform: 'rotate(0deg)'
+          transform: 'rotate(0deg)',
+          opacity: showWatchMV ? 1 : 0,  // Added fade in for line
+          transition: 'opacity 1s ease-in'  // Added transition for line
         }}/>
         <div 
           onClick={() => navigate('/game-placeholder')}
