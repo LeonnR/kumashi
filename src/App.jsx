@@ -392,7 +392,7 @@ function MainContent() {
             transition: 'all 0.2s ease',
             filter: isTempleHovered 
               ? 'brightness(1) drop-shadow(0 0 8px white)'
-              : 'brightness(0.5) drop-shadow(0 0 10px rgba(0, 162, 255, 0.5))',
+              : 'brightness(0.7) drop-shadow(0 0 10px rgba(0, 162, 255, 0.5))',
             opacity: 1,
             pointerEvents: showTemple ? 'auto' : 'none',
           }}
