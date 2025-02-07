@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import './App.css'
-import backgroundVideo from './assets/infinite-loop.webm'  // Make sure this path is correct
+import backgroundVideo from './assets/new-infinite-loop.mp4'  // Make sure this path is correct
 // import backgroundVideo from './assets/background-video.mp4'  
 import kumashiLogo from './assets/kumashi-logo.webp'  // Adjust path as needed        // Adjust path as needed
 import kaitoImage3 from './assets/theKaito.png'
@@ -36,6 +36,7 @@ function MainContent() {
   const [showSocials, setShowSocials] = useState(false);
   const [showChecker, setShowChecker] = useState(false);
   const [isSoundOn, setIsSoundOn] = useState(true);
+  const [templeZIndex, setTempleZIndex] = useState(1);
 
   // Add these SVG data URLs inside your component
   const soundOnIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z'/%3E%3C/svg%3E";
@@ -118,6 +119,13 @@ function MainContent() {
     }
     setIsSoundOn(!isSoundOn);
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTempleZIndex(8);
+    }, 2700);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div style={{ 
@@ -355,13 +363,12 @@ function MainContent() {
       <div 
         style={{
           position: 'absolute',
-          top: '0.2%',
-          right: '35%',
+          top: '3%',
+          right: '37%',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          zIndex: '8',
-          opacity: showTemple ? 1 : 0,
+          zIndex: templeZIndex,
           transition: 'opacity 1s ease-in',
           pointerEvents: showTemple ? 'auto' : 'none'
         }}>
@@ -379,14 +386,14 @@ function MainContent() {
           alt="Temple"
           style={{
             cursor: 'pointer',
-            height: '35vh',  // Reduced from 70vh to 50vh
+            height: '35vh',  // Viewport-based height
             width: 'auto',
             transform: `translateX(calc(-3% + ${mousePosition.x * -10}%))`,
             transition: 'all 0.2s ease',
             filter: isTempleHovered 
               ? 'brightness(1) drop-shadow(0 0 8px white)'
               : 'brightness(0.5) drop-shadow(0 0 10px rgba(0, 162, 255, 0.5))',
-            opacity: isTempleHovered ? 0.8 : 1,
+            opacity: 1,
             pointerEvents: showTemple ? 'auto' : 'none',
           }}
         />
