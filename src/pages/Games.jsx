@@ -35,14 +35,14 @@ function Games() {
         onClick={() => navigate('/')}
         style={{
           position: 'absolute',
-          bottom: '130px',
-          left: '200px',
+          bottom: '80px',
+          left: '40px',
           zIndex: 10
         }}
       >
         <button
           style={{
-            background: 'white',
+            background: 'rgba(255, 255, 255, 0.7)',  // Semi-transparent white background
             padding: '15px 30px',
             borderRadius: '25px',
             border: 'none',
@@ -54,15 +54,17 @@ function Games() {
             gap: '8px',
             transition: 'all 0.3s ease',
             boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
-            color: 'black'
+            color: 'black'  // Text stays fully opaque
           }}
           onMouseEnter={(e) => {
             e.target.style.transform = 'scale(1.05)';
             e.target.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)';
+            e.target.style.background = 'rgba(255, 255, 255, 1)';  // Fully opaque on hover
           }}
           onMouseLeave={(e) => {
             e.target.style.transform = 'scale(1)';
             e.target.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
+            e.target.style.background = 'rgba(255, 255, 255, 0.6)';  // Back to semi-transparent
           }}
         >
           ← Back

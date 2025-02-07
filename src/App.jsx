@@ -136,7 +136,7 @@ function MainContent() {
     }}>
       <div style={{
         position: 'absolute',
-        top: 'clamp(12.5px, 2.5vh, 25px)',  // Reduced these values even further
+        top: 'clamp(17px, 3.4vh, 34px)',  // Reduced these values even further
         right: 'clamp(10px, 2vw, 20px)',
         zIndex: 11,
         opacity: showSocials ? 1 : 0,
@@ -298,6 +298,51 @@ function MainContent() {
             left: '100%',
             transform: 'rotate(0deg)'
           }}/>
+        </div>
+      </div>
+
+      <div 
+        style={{
+          position: 'absolute',
+          right: '30%',
+          top: 'clamp(20%, 25%, 30%)',
+          zIndex: 6,
+          display: 'flex',
+          alignItems: 'center',
+          opacity: showWatchMV ? 1 : 0,
+          pointerEvents: showWatchMV ? 'auto' : 'none',
+          transform: `translateX(calc(-3% + ${mousePosition.x * -35}%))`,
+          transition: 'all 0.2s ease',
+        }}
+        onMouseEnter={() => setIsTempleHovered(true)}
+        onMouseLeave={() => setIsTempleHovered(false)}
+      >
+        <div style={{
+          width: '120px',  // Increased from 80px to 120px
+          height: '2px',
+          background: 'black',  // Changed from white to black
+          position: 'absolute',
+          right: '100%',
+          transform: 'rotate(0deg)'
+        }}/>
+        <div 
+          onClick={() => navigate('/game-placeholder')}
+          style={{
+            background: 'white',
+            padding: '10px 20px',
+            borderRadius: '25px',
+            fontSize: '18px',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            color: 'black',
+            boxShadow: isHovered ? '0 0 15px rgba(255,255,255,0.5)' : 'none',
+            transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+            transition: 'all 0.3s ease'
+          }}>
+          BATTLE
         </div>
       </div>
 
@@ -494,7 +539,7 @@ function MainContent() {
             position: 'relative',
             padding: 'clamp(10px, 2vh, 15px) clamp(20px, 3vw, 30px)',
             border: 'none',
-            fontSize: 'clamp(20px, 3vw, 30px)',
+            fontSize: 'clamp(30px, 4vw, 40px)',
             fontWeight: 'bold',
             cursor: 'pointer',
             display: 'flex',
