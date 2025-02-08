@@ -129,7 +129,10 @@ function Checker() {
       </div>
 
       <div 
-        onClick={() => navigate('/')}
+        onClick={() => {
+          sessionStorage.setItem('fromChecker', 'true');
+          navigate('/');
+        }}
         style={{
           position: 'absolute',
           bottom: '80px',

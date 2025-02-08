@@ -23,7 +23,6 @@ globalAudio.loop = true;
 globalAudio.play().catch(error => console.log('Initial autoplay prevented:', error));
 
 function MainContent() {
-  const [count, setCount] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
   const [isLogoVisible, setIsLogoVisible] = useState(false)  // New state for logo visibility
   const [showOutline, setShowOutline] = useState(false)  // new state for outline element
@@ -37,6 +36,9 @@ function MainContent() {
   const [showChecker, setShowChecker] = useState(false);
   const [isSoundOn, setIsSoundOn] = useState(true);
   const [templeZIndex, setTempleZIndex] = useState(1);
+  const [hasStarted, setHasStarted] = useState(false);
+  const location = useLocation();
+  const [skipIntro, setSkipIntro] = useState(false);
 
   // Add these SVG data URLs inside your component
   const soundOnIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z'/%3E%3C/svg%3E";
@@ -44,45 +46,65 @@ function MainContent() {
   const soundOffIcon = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3,9H7L12,4V20L7,15H3V9M16.59,12L14,9.41L15.41,8L18,10.59L20.59,8L22,9.41L19.41,12L22,14.59L20.59,16L18,13.41L15.41,16L14,14.59L16.59,12Z'/%3E%3C/svg%3E";
 
   useEffect(() => {
-    const timers = {
-      show: setTimeout(() => {
-        setIsVisible(true);
-        setIsLogoVisible(true);
-      }, 700),
+    // Check if we're returning from Checker
+    const fromChecker = sessionStorage.getItem('fromChecker') === 'true';
+    if (fromChecker) {
+      setSkipIntro(true);
+      setHasStarted(true);
+      setIsVisible(false);
+      setIsLogoVisible(false);
+      setShowOutline(true);
+      setShowTemple(true);
+      setShowWatchMV(true);
+      setShowSocials(true);
+      setShowChecker(true);
+      sessionStorage.removeItem('fromChecker');  // Clear the flag after using it
+    }
+  }, []); // Run only on mount
+
+  useEffect(() => {
+    // Only set up timers after Enter is pressed
+    if (hasStarted) {
+      const timers = {
+        show: setTimeout(() => {
+          setIsVisible(true);
+          setIsLogoVisible(true);
+        }, 700),
+        
+        fadeLogoAndShow: setTimeout(() => {
+          setIsLogoVisible(false);
+          setShowOutline(true);
+          setShowTemple(true);
+          setShowWatchMV(true);
+        }, 2000),
+        
+        hide: setTimeout(() => {
+          setIsVisible(false);
+        }, 5000),
+
+        showSocials: setTimeout(() => {
+          setShowSocials(true);
+        }, 2000),
+
+        showChecker: setTimeout(() => {
+          setShowChecker(true);
+        }, 2000)
+      };
+
+      const handleMouseMove = (e) => {
+        const x = (e.clientX / window.innerWidth) * 2 - 1;
+        const y = (e.clientY / window.innerHeight) * 2 - 1;
+        setMousePosition({ x, y });
+      };
+
+      window.addEventListener('mousemove', handleMouseMove);
       
-      fadeLogoAndShow: setTimeout(() => {
-        setIsLogoVisible(false);
-        setShowOutline(true);
-        setShowTemple(true);
-        setShowWatchMV(true);
-      }, 2000),
-      
-      hide: setTimeout(() => {
-        setIsVisible(false);
-      }, 5000),
-
-      showSocials: setTimeout(() => {
-        setShowSocials(true);
-      }, 2000),
-
-      showChecker: setTimeout(() => {
-        setShowChecker(true);
-      }, 2000)
-    };
-
-    const handleMouseMove = (e) => {
-      const x = (e.clientX / window.innerWidth) * 2 - 1;
-      const y = (e.clientY / window.innerHeight) * 2 - 1;
-      setMousePosition({ x, y });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    
-    return () => {
-      Object.values(timers).forEach(timer => clearTimeout(timer));
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
+      return () => {
+        Object.values(timers).forEach(timer => clearTimeout(timer));
+        window.removeEventListener('mousemove', handleMouseMove);
+      };
+    }
+  }, [hasStarted]); // Now depends on hasStarted
 
   useEffect(() => {
     // Try to play on component mount if it's not already playing
@@ -127,6 +149,18 @@ function MainContent() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Change keyboard event to click event
+  useEffect(() => {
+    const handleClick = () => {
+      if (!hasStarted) {
+        setHasStarted(true);
+      }
+    };
+
+    window.addEventListener('click', handleClick);
+    return () => window.removeEventListener('click', handleClick);
+  }, [hasStarted]);
+
   return (
     <div style={{ 
       position: 'relative',
@@ -134,6 +168,51 @@ function MainContent() {
       width: '100vw',
       overflow: 'hidden',
     }}>
+      {/* Show if not started and not skipping intro */}
+      {!hasStarted && !skipIntro && (
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.6)',
+          zIndex: 11,
+          opacity: hasStarted ? 0 : 1,
+          transition: 'opacity 1.5s ease',
+          pointerEvents: hasStarted ? 'none' : 'auto'
+        }} />
+      )}
+
+      {/* Show if not started and not skipping intro */}
+      {!hasStarted && !skipIntro && (
+        <div style={{
+          position: 'absolute',
+          bottom: '10%',
+          left: '0',
+          right: '0',
+          margin: '0 auto',
+          color: 'white',
+          fontSize: 'clamp(24px, 4vw, 36px)',
+          fontWeight: 'bold',
+          textAlign: 'center',
+          zIndex: 12,
+          textShadow: '0 0 10px rgba(0,0,0,0.5)',
+          animation: 'pulse 2s infinite',
+          width: '100%',
+          maxWidth: '600px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <span style={{
+            width: 'fit-content'
+          }}>
+            Press anywhere on the screen to start
+          </span>
+        </div>
+      )}
+
       <div style={{
         position: 'absolute',
         top: 'clamp(17px, 3.4vh, 34px)',  // Reduced these values even further
@@ -480,7 +559,7 @@ function MainContent() {
         />
       </div>
 
-      {isVisible && (
+      {isVisible && !skipIntro && (
         <div style={{
           position: 'absolute',
           width: '100%',
@@ -488,7 +567,7 @@ function MainContent() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          zIndex: '2',
+          zIndex: '9',
           opacity: isLogoVisible ? 1 : 0,
           transition: 'opacity 1s ease-out'
         }}>
@@ -503,7 +582,7 @@ function MainContent() {
         </div>
       )}
 
-      {isVisible && (
+      {isVisible && !skipIntro && (
         <div style={{
           position: 'absolute',
           width: '100%',
@@ -512,7 +591,7 @@ function MainContent() {
           justifyContent: 'center',
           alignItems: 'flex-end',
           paddingBottom: '5%',
-          zIndex: '3',
+          zIndex: '10',
         }}>
           <img 
             src={kaitoImage3} 

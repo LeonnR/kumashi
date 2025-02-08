@@ -50,3 +50,15 @@ html {
   opacity: 0;
   transition: opacity 300ms ease-in;
 }
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

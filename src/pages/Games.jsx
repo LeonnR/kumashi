@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useEffect } from 'react-router-dom'
 import kaitoVideo from '../assets/kaito-vid.mp4'  // Adjust the path based on your folder structure
 
 function Games() {
@@ -7,6 +7,17 @@ function Games() {
     const video = e.target;
     video.play().catch(err => console.log('Playback failed:', err));
   };
+
+  useEffect(() => {
+    // Get the global audio element and pause it
+    const audio = document.querySelector('audio') || new Audio(kumashiAudio);
+    audio.pause();
+
+    // Cleanup function to resume audio when leaving the page
+    return () => {
+      audio.play().catch(error => console.log('Play failed:', error));
+    };
+  }, []); // Empty dependency array - only run on mount/unmount
 
   return (
     <div style={{ width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', background: '#000', overflow: 'hidden' }}>
@@ -32,7 +43,10 @@ function Games() {
       </a>
 
       <div 
-        onClick={() => navigate('/')}
+        onClick={() => {
+          sessionStorage.setItem('fromChecker', 'true');
+          navigate('/');
+        }}
         style={{
           position: 'absolute',
           bottom: '80px',
@@ -59,12 +73,12 @@ function Games() {
           onMouseEnter={(e) => {
             e.target.style.transform = 'scale(1.05)';
             e.target.style.boxShadow = '0 4px 15px rgba(0,0,0,0.3)';
-            e.target.style.background = 'rgba(255, 255, 255, 1)';  // Fully opaque on hover
+            e.target.style.backgroundColor = 'rgba(255, 255, 255, 1)';
           }}
           onMouseLeave={(e) => {
             e.target.style.transform = 'scale(1)';
             e.target.style.boxShadow = '0 2px 10px rgba(0,0,0,0.2)';
-            e.target.style.background = 'rgba(255, 255, 255, 0.6)';  // Back to semi-transparent
+            e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.6)';
           }}
         >
           ← Back
