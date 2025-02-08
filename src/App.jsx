@@ -18,6 +18,8 @@ import GamePlaceholder from './pages/GamePlaceholder'
 // Initialize audio outside component
 const globalAudio = new Audio(kumashiAudio);
 globalAudio.loop = true;
+// Add this line to make the audio instance globally accessible
+window.globalAudio = globalAudio;
 
 // Try to play immediately
 globalAudio.play().catch(error => console.log('Initial autoplay prevented:', error));
