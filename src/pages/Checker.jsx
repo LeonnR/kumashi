@@ -48,7 +48,7 @@ function Checker() {
       overflow: 'hidden'
     }}>
       <img 
-        src="/src/assets/checker-bg.png"
+        src="../src/assets/checker-bg.png"
         alt="Checker Background"
         style={{
           position: 'absolute',
