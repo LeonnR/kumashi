@@ -279,19 +279,20 @@ function MainContent() {
             background: 'none',
             border: 'none',
             cursor: 'pointer',
-            padding: '15px',
+            padding: '10px',  // Reduced from 15px
             borderRadius: '50%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            transition: 'all 0.3s ease'
+            transition: 'all 0.3s ease',
+            transform: 'scale(0.8)'  // Added initial scale down
           }}
           onMouseEnter={(e) => {
-            e.target.style.transform = 'scale(1.1)';
+            e.target.style.transform = 'scale(0.9)';  // Reduced from 1.1
             e.target.querySelector('img').style.opacity = '1';
           }}
           onMouseLeave={(e) => {
-            e.target.style.transform = 'scale(1)';
+            e.target.style.transform = 'scale(0.8)';  // Reduced from 1.0
             e.target.querySelector('img').style.opacity = '0.6';
           }}
         >
@@ -326,8 +327,8 @@ function MainContent() {
           src={miniKumashi} 
           alt="Mini Kumashi"
           style={{
-            width: 'clamp(40px, 6vw, 80px)',
-            height: 'clamp(40px, 6vw, 80px)',
+            width: 'clamp(30px, 4vw, 60px)',  // Reduced from 40px, 6vw, 80px
+            height: 'clamp(30px, 4vw, 60px)', // Reduced from 40px, 6vw, 80px
             cursor: 'pointer',
             transition: 'all 0.3s ease',
             filter: 'brightness(0.8)'
@@ -346,8 +347,8 @@ function MainContent() {
           src={xLogo} 
           alt="X (Twitter)"
           style={{
-            width: 'clamp(20px, 3vw, 40px)',
-            height: 'clamp(20px, 3vw, 40px)',
+            width: 'clamp(15px, 2vw, 30px)',   // Reduced from 20px, 3vw, 40px
+            height: 'clamp(15px, 2vw, 30px)',  // Reduced from 20px, 3vw, 40px
             transition: 'transform 0.3s ease',
             cursor: 'pointer'
           }}
@@ -359,8 +360,8 @@ function MainContent() {
           src={discordLogo} 
           alt="Discord"
           style={{
-            width: 'clamp(25px, 3.5vw, 50px)',
-            height: 'clamp(20px, 3vw, 40px)',
+            width: 'clamp(18px, 2.5vw, 35px)',  // Reduced from 25px, 3.5vw, 50px
+            height: 'clamp(15px, 2vw, 30px)',   // Reduced from 20px, 3vw, 40px
             cursor: 'pointer',
             transition: 'all 0.3s ease',
             filter: 'brightness(0.8)'
@@ -461,27 +462,21 @@ function MainContent() {
           onClick={() => navigate('/game-placeholder')}
           style={{
             background: 'white',
-            padding: '8px 16px',  // Reduced padding
+            padding: '10px 20px',
             borderRadius: '25px',
-            fontSize: '16px',  // Smaller fixed font size
-            fontFamily: 'Arial, sans-serif',
+            fontSize: '18px',  // Set explicit font size
+            fontFamily: 'Arial, sans-serif',  // Set explicit fallback fonts
             fontWeight: 'bold',
-            width: 'max-content',  // Changed from fit-content
-            height: '35px',  // Add explicit height
-            minWidth: '80px',  // Add minimum width
-            maxWidth: '120px',  // Add maximum width
-            whiteSpace: 'nowrap',
+            width: 'fit-content',  // Add this to control width
+            whiteSpace: 'nowrap',  // Add this to prevent text wrapping
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',  // Center text
             gap: '10px',
             color: 'black',
             boxShadow: isHovered ? '0 0 15px rgba(255,255,255,0.5)' : 'none',
             transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-            transition: 'all 0.3s ease',
-            lineHeight: '1',  // Add line height control
-            boxSizing: 'border-box'  // Ensure padding is included in dimensions
+            transition: 'all 0.3s ease'
           }}>
           BATTLE
         </div>
@@ -678,9 +673,9 @@ function MainContent() {
         <button
           style={{
             position: 'relative',
-            padding: 'clamp(10px, 2vh, 15px) clamp(20px, 3vw, 30px)',
+            padding: 'clamp(8px, 1.5vh, 12px) clamp(15px, 2vw, 25px)',
             border: 'none',
-            fontSize: 'clamp(30px, 4vw, 40px)',
+            fontSize: 'clamp(20px, 3vw, 30px)',
             fontWeight: 'bold',
             cursor: 'pointer',
             display: 'flex',
@@ -688,7 +683,7 @@ function MainContent() {
             gap: '8px',
             transition: 'all 0.3s ease',
             color: 'rgba(255, 255, 255, 0.6)',
-            background: 'none',
+            background: 'none', 
           }}
           onMouseEnter={(e) => {
             e.target.style.transform = 'scale(1.05)';
@@ -699,7 +694,6 @@ function MainContent() {
             e.target.style.color = 'rgba(255, 255, 255, 0.6)';
           }}
           onClick={() => {
-            // console.log('Checker clicked');
             navigate('/checker');
           }}
         >
