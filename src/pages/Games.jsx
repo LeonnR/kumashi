@@ -15,7 +15,7 @@ function Games() {
     // Cleanup function to resume audio when leaving the page
     return () => {
       if (globalAudio && !globalAudio.paused) {  // Only play if it wasn't paused by the sound toggle
-        globalAudio.play().catch(error => console.log('Play failed:', error));
+        // globalAudio.play().catch(error => console.log('Play failed:', error));
       }
     };
   }, []);

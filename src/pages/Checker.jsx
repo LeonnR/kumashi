@@ -32,11 +32,11 @@ function Checker() {
       setCheckResult(exists ? 'You are eligible' : 'Oops.. Warrior not recognized');
       
       // For debugging
-      console.log('Wallets:', wallets);
-      console.log('Checking wallet:', walletAddress.toLowerCase());
-      console.log('Result:', exists);
+      // console.log('Wallets:', wallets);
+      // console.log('Checking wallet:', walletAddress.toLowerCase());
+      // console.log('Result:', exists);
     } catch (error) {
-      console.error('Error checking wallet:', error);
+      // console.error('Error checking wallet:', error);
       setCheckResult('Error checking wallet');
     }
   };

@@ -113,7 +113,7 @@ function MainContent() {
     // Try to play on component mount if it's not already playing
     if (isSoundOn && globalAudio.paused) {
       globalAudio.play().catch(error => {
-        console.log('Autoplay prevented:', error);
+        // console.log('Autoplay prevented:', error);
       });
     }
 
@@ -123,7 +123,7 @@ function MainContent() {
         try {
           await globalAudio.play();
         } catch (error) {
-          console.log('Play failed:', error);
+          // console.log('Play failed:', error);
         }
       }
     };
@@ -140,7 +140,7 @@ function MainContent() {
     if (isSoundOn) {
       globalAudio.pause();
     } else {
-      globalAudio.play().catch(console.error);
+      // globalAudio.play().catch(console.error);
     }
     setIsSoundOn(!isSoundOn);
   };
@@ -494,7 +494,7 @@ function MainContent() {
           willChange: 'transform',
         }}
         onError={(e) => {
-          console.error('Video error:', e);
+          // console.error('Video error:', e);
           // Attempt to recover by reloading the video
           e.target.load();
         }}
@@ -552,11 +552,11 @@ function MainContent() {
         <img 
           onClick={() => navigate('/game-placeholder')}
           onMouseEnter={() => {
-            console.log('Mouse entered temple');
+            // console.log('Mouse entered temple');
             setIsTempleHovered(true);
           }}
           onMouseLeave={() => {
-            console.log('Mouse left temple');
+            // console.log('Mouse left temple');
             setIsTempleHovered(false);
           }}
           src={templeImage} 
