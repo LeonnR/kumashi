@@ -22,7 +22,7 @@ globalAudio.loop = true;
 window.globalAudio = globalAudio;
 
 // Try to play immediately
-globalAudio.play().catch(error => console.log('Initial autoplay prevented:', error));
+// globalAudio.play().catch(error => console.log('Initial autoplay prevented:', error));
 
 function MainContent() {
   const [isVisible, setIsVisible] = useState(false)
@@ -690,7 +690,7 @@ function MainContent() {
             e.target.style.color = 'rgba(255, 255, 255, 0.6)';
           }}
           onClick={() => {
-            console.log('Checker clicked');
+            // console.log('Checker clicked');
             navigate('/checker');
           }}
         >
