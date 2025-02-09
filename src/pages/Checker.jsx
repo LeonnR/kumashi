@@ -44,11 +44,22 @@ function Checker() {
     <div style={{ 
       width: '100vw', 
       height: '100vh', 
-      background: `url('/src/assets/checker-bg.png')`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat'
+      position: 'relative',
+      overflow: 'hidden'
     }}>
+      <img 
+        src="/src/assets/checker-bg.png"
+        alt="Checker Background"
+        style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          top: 0,
+          left: 0,
+          zIndex: -1
+        }}
+      />
       <div style={{
         position: 'absolute',
         top: '50%',
