@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import kaitoVideo from '../assets/kaito-vid.mp4'  // Adjust the path based on your folder structure
+import checkerBg from '../assets/checker-bg.png'  // Add this import
 import { useState } from 'react'
 
 function Checker() {
@@ -48,7 +49,7 @@ function Checker() {
       overflow: 'hidden'
     }}>
       <img 
-        src="../src/assets/checker-bg.png"
+        src={checkerBg}
         alt="Checker Background"
         style={{
           position: 'absolute',
