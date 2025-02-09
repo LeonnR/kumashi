@@ -191,7 +191,7 @@ function MainContent() {
           left: 0,
           width: '100%',
           height: '100%',
-          backgroundColor: 'rgba(0, 0, 0, 0.9)',
+          backgroundColor: 'rgba(0, 0, 0, 1)',
           zIndex: 9999,
           display: 'flex',
           flexDirection: 'column',
@@ -463,8 +463,11 @@ function MainContent() {
             background: 'white',
             padding: '10px 20px',
             borderRadius: '25px',
-            fontSize: '18px',
+            fontSize: '18px',  // Set explicit font size
+            fontFamily: 'Arial, sans-serif',  // Set explicit fallback fonts
             fontWeight: 'bold',
+            width: 'fit-content',  // Add this to control width
+            whiteSpace: 'nowrap',  // Add this to prevent text wrapping
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
