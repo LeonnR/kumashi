@@ -461,21 +461,27 @@ function MainContent() {
           onClick={() => navigate('/game-placeholder')}
           style={{
             background: 'white',
-            padding: '10px 20px',
+            padding: '8px 16px',  // Reduced padding
             borderRadius: '25px',
-            fontSize: '18px',  // Set explicit font size
-            fontFamily: 'Arial, sans-serif',  // Set explicit fallback fonts
+            fontSize: '16px',  // Smaller fixed font size
+            fontFamily: 'Arial, sans-serif',
             fontWeight: 'bold',
-            width: 'fit-content',  // Add this to control width
-            whiteSpace: 'nowrap',  // Add this to prevent text wrapping
+            width: 'max-content',  // Changed from fit-content
+            height: '35px',  // Add explicit height
+            minWidth: '80px',  // Add minimum width
+            maxWidth: '120px',  // Add maximum width
+            whiteSpace: 'nowrap',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
+            justifyContent: 'center',  // Center text
             gap: '10px',
             color: 'black',
             boxShadow: isHovered ? '0 0 15px rgba(255,255,255,0.5)' : 'none',
             transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-            transition: 'all 0.3s ease'
+            transition: 'all 0.3s ease',
+            lineHeight: '1',  // Add line height control
+            boxSizing: 'border-box'  // Ensure padding is included in dimensions
           }}>
           BATTLE
         </div>
